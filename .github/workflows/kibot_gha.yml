@@ -39,12 +39,13 @@ jobs:
       # full k6 + dev
       # You can also use v2_k6
       #uses: INTI-CMNB/KiBot@v2_dk6
-      uses: INTI-CMNB/KiBot@21f51904fea704ffe13e98bc819be80ee6a1fae1
+      uses: INTI-CMNB/KiBot@b9f701109d11fb64404548431562d52ca35ad539
       with:
         config: configs/blender_export.kibot.yaml
         dir: Generated
         board: pcb/light_control.kicad_pcb
         cache3D: YES
+        verbose: 4
 
     - name: Retrieve results
       uses: actions/upload-artifact@v3
