@@ -38,11 +38,10 @@ jobs:
         key: cache_3d
 
     - name: Run KiBot
-      env:
-        KIBOT_3D_MODELS: cache_3d
       run: |
+        export KIBOT_3D_MODELS="$HOME/cache_3d"
         mkdir Generated
-        kibot -vvvv -c configs/blender_export.kibot.yaml -b pcb/light_control.kicad_pcb 2> Generated/kibot.log
+        kibot -vvvv -c configs/blender_export.kibot.yaml -b pcb/light_control.kicad_pcb -d Generated 2> Generated/kibot.log
 
     - name: Retrieve results
       uses: actions/upload-artifact@v3
