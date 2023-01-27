@@ -1,0 +1,27 @@
+# KiBot Blender export test 2
+# Generating the PCB3D in the blender_export
+# src/kibot -vv -b tests/data/ArduinoLearningKitStarter.kicad_pcb -c tests/yaml_samples/blender_export_1.kibot.yaml -d r3d_lst
+kibot:
+  version: 1
+
+outputs:
+  - name: '3d_export'
+    comment: "Exports the PCB in blender format"
+    type: blender_export
+    options:
+      pcb3d:
+        solder_paste_for_populated: true
+      render_options:
+        transparent_background: true
+        samples: 10
+      point_of_view:
+        rotate_x: 30
+        rotate_z: -20
+      outputs:
+        - type: blender
+        - type: render
+
+  - name: 'navigate'
+    comment: "Browse the results"
+    type: navigate_results
+    run_by_default: false
