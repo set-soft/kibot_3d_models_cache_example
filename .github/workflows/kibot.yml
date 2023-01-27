@@ -1,1 +1,52 @@
-# Empty
+name: "KiCost demo using cache"
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    paths:
+      - 'pcb/*.kicad_sch'
+      - 'pcb/*.kicad_pcb'
+      - 'configs/*.kibot.yaml'
+      - 'Makefile'
+      - '.github/workflows/kibot.yml'
+  pull_request:
+    paths:
+      - 'pcb/*.kicad_sch'
+      - 'pcb/*.kicad_pcb'
+      - 'configs/*.kibot.yaml'
+      - 'Makefile'
+      - '.github/workflows/kibot.yml'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  KiCost:
+    name: Render PCB
+    runs-on: ubuntu-latest
+    container: ghcr.io/inti-cmnb/kicad6_auto_full:dev
+
+    steps:
+    - name: Checkout (only last code)
+      uses: actions/checkout@v3
+
+    - name: Cache 3D models data
+      id: models-cache
+      #uses: actions/cache@v3
+      uses: set-soft/cache@main
+      with:
+        path: ~/cache_3d
+        key: cache_3d
+
+    - name: Run KiBot
+      env:
+        KIBOT_3D_MODELS: cache_3d
+      run: |
+        mkdir Generated
+        kibot -vvvv -c configs/blender_export.kibot.yaml -b pcb/light_control.kicad_pcb 2> Generated/kibot.log
+
+    - name: Retrieve results
+      uses: actions/upload-artifact@v3
+      if: ${{ always() }}
+      with:
+        name: All_Outputs
+        path: Generated
