@@ -38,9 +38,8 @@ jobs:
 
     - name: Run KiBot
       # full k6 + dev
-      # You can also use v2_k6
-      #uses: INTI-CMNB/KiBot@v2_dk6
-      uses: INTI-CMNB/KiBot@b9f701109d11fb64404548431562d52ca35ad539
+      # You can also use v2_k6 when 1.5.2 is released
+      uses: INTI-CMNB/KiBot@v2_dk6
       with:
         config: configs/blender_export.kibot.yaml
         dir: Generated
